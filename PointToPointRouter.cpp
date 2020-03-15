@@ -18,10 +18,6 @@ class PointToPointRouterImpl {
   private:
     const StreetMap* m_map;
 
-    // double euclideanDist(const GeoCoord a, const GeoCoord b) const {
-    //     return sqrt(
-    //         pow(a.latitude - b.latitude, 2) + pow(a.longitude - b.longitude, 2));
-    // }
     struct StreetSegmentNode {
         StreetSegmentNode(StreetSegment s, double p) {
             seg = s;
@@ -30,10 +26,7 @@ class PointToPointRouterImpl {
         StreetSegment seg;
         double priority;
         bool operator==(const StreetSegmentNode& other) const {
-            return this->seg.start.latitude == other.seg.start.latitude 
-            && this->seg.start.longitude == other.seg.start.longitude
-            && this->seg.end.latitude == other.seg.end.latitude 
-            && this->seg.end.longitude == other.seg.end.longitude
+            return this->seg == other.seg
             && this->seg.name == other.seg.name;
         }
     };
@@ -81,6 +74,11 @@ DeliveryResult PointToPointRouterImpl::generatePointToPointRoute(
     if(!m_map->getSegmentsThatStartWith(start, start_segments))
         return BAD_COORD;
 
+    if(start == end) {
+        route.clear();
+        totalDistanceTravelled = 0;
+        return DELIVERY_SUCCESS;
+    }
     StreetSegment a(start, start, "__start__");
     StreetSegmentNode current(a, 0);
     frontier.push(current);
@@ -109,6 +107,8 @@ DeliveryResult PointToPointRouterImpl::generatePointToPointRoute(
 
     if(current.seg.end != end)
         return NO_ROUTE;
+
+    route.clear();
 
     StreetSegment endSegment = current.seg;
 

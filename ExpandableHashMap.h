@@ -28,6 +28,7 @@ class ExpandableHashMap {
     ExpandableHashMap(const ExpandableHashMap&) = delete;
     ExpandableHashMap& operator=(const ExpandableHashMap&) = delete;
     void print();
+
   private:
     std::vector<std::list<std::pair<KeyType, ValueType>>> m_buckets;
     double m_maxLoadFactor;
@@ -39,6 +40,7 @@ class ExpandableHashMap {
 template <typename KeyType, typename ValueType>
 ExpandableHashMap<KeyType, ValueType>::ExpandableHashMap(double maximumLoadFactor)
     : m_buckets(8), m_maxLoadFactor(maximumLoadFactor), m_nAssociations(0) {
+    // Initialize
 }
 
 template <typename KeyType, typename ValueType>
@@ -74,7 +76,6 @@ void ExpandableHashMap<KeyType, ValueType>::associate(const KeyType& key, const 
                 new_buckets[getBucketNumber((*a).first, new_buckets.size())].push_back(*a);
         m_buckets.clear();
         m_buckets = new_buckets;
-        
     }
     ValueType* valueRef = find(key);
     if (valueRef != nullptr) {
