@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     }
 
     GeoCoord end("34.0425011", "-118.4967245");
-    GeoCoord start("34.0365743", "-118.4897933");
+    GeoCoord start("34.0425011", "-118.4967245");
     PointToPointRouter testRouter(&sm);
     list<StreetSegment> route;
     double distance = 123232;

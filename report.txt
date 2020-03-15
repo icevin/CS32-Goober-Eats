@@ -1,0 +1,27 @@
+Programming Assignment 4
+Goober Eats
+Kevin Tang
+UID #805419480
+
+Report:
+
+StreetMap:
+    load():
+        If there are N lines in mapdata.txt, the big-O of loading the data is O(N).
+        Each line that does not include a StreetSegment takes constant time to process.
+        Each line that does include a StreetSegment (and therefore calls ExpandableHashmap's associate() function twice) still runs in constant time on average.
+    getSegmentsThatStartWith():
+        If the StreetMap holds N GeoCoords, and each GeoCoord is associated with S street segments, then the Big-O is (on average) O(S).
+        Finding the bucket containing the GeoCord takes O(1) time, while accessing and copying the vector of associated street segments takes O(S) time. However, S should almost always be very small when compared to N.
+
+PointToPointRouter:
+    generatePointToPointRoute():
+        I implemented A* to generate the Point to Point route, using several data structures:
+        Priority queue:
+            I used a priority queue for the "open" or "frontier" set, to always get the segment with the best priority.
+        Unordered map:
+            I used two unordered maps. I used one to map a GeoCoord to its distance cost, and another to map each StreetSegment to its' parent in the map.
+
+DeliveryOptimizer:
+    optimizeDeliveryOrder():
+        I implemented simulated annealing in optimizeDeliveryOrder(). The only data structure I used was a vector, to store the ordering of the DeliveryRequests and perform simulated annealing on these orders.
